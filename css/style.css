@@ -1,0 +1,158 @@
+html, body {
+  height: 100%; width: 100%; margin: 0; padding: 0;
+ }
+ 
+body {
+  background-color:#5F5A59; 
+  overflow:hidden; 
+  font-family: "Arial", san-serif; 
+ }
+ 
+ .roundedCorners {
+-moz-border-radius: 4px;
+ }
+ .shadow {
+    /*slight shadow effect added for browsers that support this functionality*/
+     -o-border-radius: 10px;
+     -moz-border-radius: 10px;
+     -webkit-border-radius: 10px;
+      box-shadow: 4px 4px 8px #adadad;
+      -webkit-box-shadow: 4px 4px 8px #adadad;
+      -moz-box-shadow: 4px 4px 8px #adadad;
+     -o-box-shadow: 4px 4px 8px #adadad;
+      }
+	  
+ #header{
+  height:40px;
+  width:100%;
+  background-color:#white;
+}
+
+#header a{
+    margin-left:10px;
+  }  
+  
+#dvrpclogo {
+  border: none;
+  position: absolute;
+  left: 5px;
+}
+
+.logo{
+  border: none;
+}
+
+#divider {
+  border: none;
+  position: absolute;
+  left: 145px;
+}
+
+#banner {
+  border: none;
+  position: absolute;
+  left: 160px;
+}
+#banner_text {
+  border: none;
+  position: absolute;
+  left: 340px;
+  margin:5px 0px 0px 0px;
+  font-size: 25px;
+  color: #50381E;
+  font-weight:bold;
+}
+
+#buttons {
+  float:right;
+   margin:10px 0px 0px 0px;
+}   
+
+#locater {
+  border:none;
+  float:right;
+  font-size:80%;
+  margin:12px 0px 0px 0px;
+}
+
+#mapArea, #map {
+background-color:white;
+border:solid 2px grey;
+margin:2px;
+}
+                       
+#leftPane {
+ border:solid 1px grey;
+ margin:3px;
+overflow:hidden;
+}
+
+#legend{
+height:85%;
+}
+
+.tabheader{
+font-size:14px;
+font-weight:bold;
+}
+
+  #sliderArea  {
+  margin-top:10px;
+  height:15%;
+  overflow:none;
+  }
+
+#tocPane, #tocPane2 {
+font-size:12px;
+font-weight:normal;
+}
+
+#myform, fieldset {
+ border:none;
+}
+
+#zoom {
+position:absolute; 
+left:5px; 
+top:200px; 
+z-Index:1; 
+cursor: pointer;
+}
+
+.dialog, .dialog2 {
+    width:580px !important;
+	height:auto;
+    font-size:80% !important;
+    position:relative;
+	overflow:auto;
+  }
+#tabs #tabs1 #tabs2 {
+  width:530px !important;	
+  overflow:auto; 
+}
+#tabs h4 {
+    font-size:100%;
+  }
+  .infoD1, .infoDX, .infoIX, .infoI2{
+width:550px !important;
+font-size:80% !important;
+position:relative;
+}
+
+#h3{
+font-size:15px;
+font-weight:bold;
+}
+
+#myform{
+font-size:12px;
+font-weight:normal;
+}
+
+.openinfoDX, .openinfoI2, .openinfoD1, .openinfoIX { 
+ cursor: pointer;
+}
+
+.openinfoDX:hover, .openinfoI2:hover, .openinfoD1:hover, .openinfoIX:hover { 
+ background-color: #D7D7D7;
+}

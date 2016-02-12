@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9" />
+        <!--The viewport meta tag is used to improve the presentation and behavior of the samples on iOS devices-->
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+        <title>DVRPC - Routes 611 & 263 Wayfinding</title>
+      
+	    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.7/js/dojo/dijit/themes/claro/claro.css">
+		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.7/js/dojo/dijit/themes/tundra/tundra.css">
+		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.7/js/esri/dijit/css/Popup.css">
+	    <link rel="stylesheet" type="text/css" href="css/button.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/ExpandoPane.css" />
+	
+	    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.2.custom.css"/>
+	
+
+       <style>
+	   #mainWindow, #header_splitter, #leftPane_splitter {
+       background-color: #5F5A59; 
+       }
+	     
+	   #zoom{
+		position: absolute; 
+		left: 8px; 
+		top: 10px; 
+		z-Index: 1; 
+		cursor: pointer;
+		}
+		
+		.ui-dialog{
+	   position: absolute;
+	   overflow: hidden;
+	    }
+		ui-dialog-titlebar{
+		background-color:
+		}
+	  
+	   .dijitAccordionText {
+        margin-left: 4px;
+        margin-right: 4px;
+        color: #5F5A59;
+        }
+		
+		#slider {
+	    margin-left:85px;
+	    width:150px;
+	   height:8px;
+	   border:1px solid #242424;
+	   background:url(images/slider2.png)repeat-x;
+	   }
+
+        .ui-slider-horizontal .ui-state-default {
+       border:none; 
+       background: url(images/sliderball.png) no-repeat scroll 50% 50%;}
+	   
+	   #map_layers_esristreet img
+{
+filter: url(filters.svg#grayscale) !important; /* Firefox 3.5+ */
+filter: gray !important; /* IE5+ */
+-webkit-filter: grayscale(1) !important; /* Webkit Nightlies &amp; Chrome Canary */
+}
+
+        </style>
+
+	  
+	    <script type="text/javascript">
+            var djConfig = {
+              parseOnLoad: true,
+              baseUrl: './',
+              modulePaths: {
+              'agsjs': 'build/agsjs'
+		//   'agsjs': 'http://gmaps-utility-gis.googlecode.com/svn/tags/agsjs/1.07/build/agsjs'
+              }
+            };
+        </script>
+      
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.7"></script>
+		<script type="text/javascript" src="src/agsjs/layers/script.js"></script>
+
+	   <script type="text/javascript">
+		function clearText(field){
+        if (field.defaultValue == field.value) field.value = '';
+        else if (field.value == '') field.value = field.defaultValue ;
+		}
+      </script>
+	  
+	  	    <script type="text/javascript">
+		     dojo.require("dijit.dijit");  
+			 dojo.require("dijit.layout.BorderContainer");
+			 dojo.require("dijit.TitlePane");
+			 dojo.require("dijit.layout.ContentPane");
+			 dojo.require("dijit.layout.TabContainer");
+             dojo.require("dijit.form.Button");
+       	     dojo.require("dijit.form.Textarea"); 
+			 dojo.require("esri.map");
+	         dojo.require("esri.dijit.Popup");   
+		     dojo.require("esri.dijit.BasemapGallery");
+             dojo.require("esri.arcgis.utils");
+			 dojo.require("agsjs.layers.GoogleMapsLayer");
+			 dojo.require("esri.tasks.locator");   
+     
+        </script>
+		
+    </head>
+	
+    <body class="tundra" >
+	
+    <div id="mainWindow" dojotype="dijit.layout.BorderContainer" data-dojo-props="design:'headline'" design="headline" gutters="true" style="width:100%; height:100%;">
+ <!-- Start Header -->    
+	  <div id="header" class="shadow" dojotype="dijit.layout.ContentPane" region="top">
+     	
+	  <div id="dvrpclogo" > <a href="http://www.dvrpc.org" target="_blank"> <img class="logo" src="images/dvrpc_logoGrey.png"/></a> </div> 
+	  <div id="divider" > <img src="images/divider.png"/> </div>  
+	  <div id="banner" ><img src="images/signs/611_crp.png"/></div>
+	  <div id="banner_text" >Wayfinding</div>
+	 
+	 <span ><a href="javascript:openTab(0);void(0);" class="large button darkblue" >about</a></span> 
+     <span ><a href="javascript:openTab2(0);void(0);" class="large button darkblue" >how to use</a></span>
+    
+	  <div id="buttons">
+	  <img src="images/search.png" alt="" title="Search" style="width:20px; height:20px;cursor: pointer;margin:2px 0px 2px 0px;" onclick="locate()" />
+	  </div>
+	  <div id="locater">  
+	   <input type="text" id="address" size="28" title="Address, ZIP code or city" onFocus="clearText(this)" onBlur="clearText(this)" value="Address, ZIP code or city" />
+	  </div>
+ 
+      </div>
+<!--  End header -->
+<!--  Start Legend -->
+   
+	 <div id="leftPane" class="roundedCorners" dojoType="dijit.layout.ContentPane" splitter="false" title="Show/Hide Legend" maxWidth="275" style="width:285px" region="left">
+	
+	     <div id="h3">  Zoom to...</div>
+		  <select id="typeFilter">
+		  <option value="" selected="selected">Select District/Attractor</option>
+		  <option value="-8366051.82489,4880562.88111">Downtown Glenside</option>
+		  <option value="-8363126.22846000000,4876419.87472000000">Elkins Park (East and West consolidated)</option>
+	      <option value="-8362963.73093000000,4879832.17286000000">Jenkintown</option>
+	      <option value="-8363049.28343000000,4885090.55016000000">Roslyn Valley</option>
+	      <option value="-8365331.56953000000,4881352.01239000000">Keswick Village</option>
+	      <option value="-8362520.46539000000,4882607.99769000000">Abington</option>
+		  <option value="-8361988.86430000000,4886491.47799000000">Willow Grove</option>
+		  <option value="-8360778.98846000000,4891735.17581000000">Downtown Hatboro</option>
+	      <option value="-8365222.13610000000,4878159.33314000000">Curtis Arboretum</option>
+	      <option value="-8361987.38000000000,4879380.02664000000">Abington Art Center</option>
+		  <option value="-8361303.80095000000,4882921.62813000000">Penn State University - Abington Campus</option>
+		  <option value="-8363766.10279000000,4889410.69696000000" >Willow Grove Industrial Park</option>
+		  </select>	  	    
+
+		<br><br>
+        <div id="h3">Signs and Inventory</div>   
+		   <form action="#" method="post" id="myform">
+            <fieldset>
+	   	    <input type='checkbox' class='' checked='checked' id='checkallpa' name='checkallpa' /> Select/Clear All<br />
+			<hr> 
+		    <input type='checkbox' class='dyn_item'  id='4' /><img src="images/legend/existing.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Existing Signs</span><br>
+			<input type='checkbox' class='dyn_item' checked='checked' id='1' /><img src="images/legend/dx.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">DX Signs: Directional to Signing District</span><a class="openinfoDX" ><U>  View Sample</U> </a><br>
+            <input type='checkbox' class='dyn_item' checked='checked' id='2' /><img src="images/legend/i2.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">I-2 Signs: Municipal Boundary Welcome Signs</span><a class="openinfoI2" ><U>  View Sample</U> </a><br>
+			<input type='checkbox' class='dyn_item' checked='checked' id='0' /><img src="images/legend/d1.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px" class="openinfoD1"/><span style="" >D1-Series Signs: Community Wayfinding Guide Signs</span> <a class="openinfoD1" ><U>  View Sample</U> </a><br> 
+            <input type='checkbox' class='dyn_item' checked='checked' id='3' /><img src="images/legend/ix.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">IX Signs: Business District Welcome Signs</span><a class="openinfoIX" ><U>  View Sample</U> </a><br>
+	  </fieldset>
+			</form>
+			
+ <div id="h3">Base Map Layers</div>   	
+		<form action="#" method="post" id="myform">
+            <fieldset>
+
+	   	    <input type='checkbox' class='' checked='checked' id='checkallbase' name='checkallbase' /> Select/Clear All<br />
+			<hr> 
+		   <input type='checkbox' class='list_item'  checked='checked' id='5' /><img src="images/legend/att.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Attractions</span><br>
+	    <input type='checkbox' class='list_item'  checked='checked' id='6' onchange="toggleLayers();"/><img src="images/legend/comdist.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Community Business Districts </span><br>
+		    <input type='checkbox' class='list_item'  checked='checked' id='7' onchange="toggleLayers();"/><img src="images/legend/mcd.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Municipal Boundaries</span><br>
+			<input type='checkbox' class='list_item'  checked='checked' id='8' onchange="toggleLayers();"/><img src="images/legend/shed.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Shed</span><br>
+		  </fieldset>
+			</form>	  
+ <div id="sliderbox">
+	 <img src="images/opacity.png" style="position:relative;top:15px;left:15px"/>
+      <div id="slider"></div>
+	  </div>
+
+ 	</div>
+		
+<!--  End Legend -->
+
+<!--  Start Map -->	
+        <div id="map" class="roundedCorners" dojotype="dijit.layout.ContentPane" region="center">
+		 <img id="zoom" src="images/zoom_button_dvrpcBndy.png"  onclick="zoomRegion()" title="zoom to region" style="" /> 	
+
+		
+	           <!--  Start BasemapGallery -->
+		        <div style="position:absolute; right:20px; top:10px; z-Index:1;">
+                    <div dojoType="dijit.TitlePane" title="Switch Basemap" closable="false" open="false">
+                        <div dojoType="dijit.layout.ContentPane" style="width:380px; height:280px; overflow:auto;">
+                            <div id="basemapGallery">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			<!--    End BasemapGalley -->		
+        </div>
+<!--  End Map -->		
+		
+    </div>
+	
+	   <!-- Dialog -->
+    <div id="dialog" title="Routes 611 & 263 Wayfinding">
+    <div id="tabs">
+      <ul>
+          <li><a href="#tabs-1">Disclaimer</a></li>
+		  <li><a href="#tabs-2">Contact Info</a></li>
+      </ul>
+	  
+      <div id="tabs-1">
+	  <p>
+	   This web page is a public resource of general information. The Delaware Valley Regional Commission (DVRPC) makes 
+	   no warranty, representation, or guarantee as to the content, sequence, accuracy, timeliness or completeness 
+	   of any of the spatial data or database information provided herein. The DVRPC, state, local and other agencies 
+	   shall assume no liability for errors, omissions, or inaccuracies in the information provided regardless of how 
+	   caused; or any decision made or action taken or not taken by any person relying on any information or data 
+	   furnished within.
+        </p>
+      </div> 
+  
+	<div id="tabs-2">
+	  <p>
+	    David Anderson <br/>
+	    Manager <br/>
+	    Office of Transportation and Corridor Studies<br/>
+		Phone: 215-238-2825  <br/>
+	    <a href="mailto:danderson@dvrpc.org">danderson@dvrpc.org </a> 
+	  </p>
+	 
+      </div>
+
+    </div>
+</div>	
+	
+  <!-- End Dialog -->
+  
+	 <!-- Start Dialog2 -->
+    <div id="dialog2" title="how to use">
+	   <h4>Map Navigation:</h4>
+		
+		<p>Click-and-drag on the map to pan, or use your mouse wheel to zoom in/out.  You may also use the slider bar and arrow controls to zoom in/out of the map.
+ 		Double-clicking on an area will also zoom in. If you hold down the <B>Shift Key </B>and drag a <Font color="red">box </Font>on the map, it will zoom to the area drawn.<br><br> 
+		
+		Use the menu on the left to turn on/off selected layers. You can turn all of the layers on/off quickly by clicking on Select/Clear All.<br><br>
+		Use the opacity slider bar to decrease/increase the transparency level of the base map layers.<br><br>
+		Click the <b>zoom to region</b> button <img src="images/zoom_button_dvrpcBndy.png" title="zoom to region" style="" /> to zoom to the initial map extent. 
+	    </p>
+	</div>	
+	  <!-- End Dialog2 -->
+	  
+
+	<div id="infoDX" title="DX Signs: Directional to Signing District">
+	<img src="images/signs/dXsign.png" style="vertical-align:middle;margin-right:4px"/>
+	</div>	
+	
+	  <div id="infoI2" title="I-2 Signs: Municipal Boundary Welcome Signs">
+	<img src="images/signs/I2sign.png" style="vertical-align:middle;margin-right:4px"/>
+	</div>	
+	
+	<div id="infoD1" title="D1-Series Signs: Community Wayfinding Guide Signs">
+	<img src="images/signs/d1sign.png" style="vertical-align:middle;margin-right:4px"/>
+	</div>	
+	
+	<div id="infoIX" title="IX Signs: Business District Welcome Signs">
+	<img src="images/signs/Ixsign.png" style="vertical-align:middle;margin-right:4px"/>
+	</div>	
+
+
+	
+</body>
+</html>

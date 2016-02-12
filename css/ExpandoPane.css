@@ -1,0 +1,121 @@
+	
+	.dojoxExpandoPane {
+		overflow:hidden;
+		z-index:440 !important;
+	}
+	
+	.dojoxExpandoPane .dojoxExpandoWrapper {
+		overflow:hidden;
+	}
+	.dojoxExpandoClosed .dojoxExpandoTitleNode {
+		display:none;
+	}
+	
+	.dojoxExpandoClosed .dojoxExpandoWrapper * {
+		overflow:hidden !important;
+	}
+	.dojoxExpandoTitleNode {
+		padding-right:6px; 
+		padding-left:6px;
+	}
+	.dojoxExpandoIcon .a11yNode {
+		display:none;
+		visibility:hidden;
+	}
+	.dojoxExpandoBottom .dojoxExpandoIcon,
+	.dojoxExpandoTop .dojoxExpandoIcon,
+	.dojoxExpandoLeft .dojoxExpandoIcon {
+		float:right;
+		margin-right:2px;
+	}
+	.dojoxExpandoRight .dojoxExpandoIcon {
+		float:left;
+		margin-left:2px;
+	}
+	.dojoxExpandoIcon {
+		width:14px;
+		cursor:pointer;
+		background-position:-60px 0px;
+		background-repeat: no-repeat;
+		height:14px;
+	}
+	.dojoxExpandoClosed .dojoxExpandoIcon {
+		background-position: 0px 0px;
+		margin:0 auto;
+	}
+	
+	.dijitBorderContainer-dijitExpandoPane {
+		border: none !important; 
+	}
+	
+	.tundra .dojoxExpandoTitle {
+		font-weight: bold;
+		padding: 5px;
+		padding-top: 6px;
+		padding-bottom: 6px;
+		background: #fafafa url("../images/accordionItemActive.gif") repeat-x scroll left top;
+		border-top: 1px solid #ccc;
+		border-left: 1px solid #ccc;
+		border-right: 1px solid #ccc;
+	}
+		
+	.tundra .dojoxExpandoClosed .dojoxExpandoTitle {
+		background: none;
+		background-color: #fafafa;
+		border: none;
+		padding:3px;
+	}
+	
+	.tundra .dojoxExpandoClosed {
+		background: none;
+		background-color: #fafafa;
+		border: 1px solid #ccc !important;
+	}
+	.tundra .dojoxExpandoRight .dojoxExpandoTitle,
+	.tundra .dojoxExpandoLeft .dojoxExpandoTitle,
+	.tundra .dojoxExpandoClosed .dojoxExpandoTitle,
+	.tundra .dojoxExpandoClosed {
+		background-color: #fafafa;
+	}
+	
+	.tundra .dojoxExpandoIcon {
+		background-image: url('../images/spriteRoundedIconsSmall.gif');
+	}
+	
+	.tundra .dojoxExpandoClosed .dojoxExpandoIconLeft,
+	.tundra .dojoxExpandoClosed .dojoxExpandoIconRight,
+	.tundra .dojoxExpandoClosed .dojoxExpandoIconTop,
+	.tundra .dojoxExpandoClosed .dojoxExpandoIconBottom {
+		margin-top: 3px;
+	}
+	
+	.dojoxExpandoClosed .dojoxExpandoIcon {
+		margin-right:4px;
+	}
+	.dojoxExpandoIconLeft {
+	  background-position: 0 0;
+	}
+	.dojoxExpandoClosed .dojoxExpandoIconLeft {
+	  background-position: -30px 0;
+		margin-right: 4px;
+	}
+	.dojoxExpandoIconRight {
+	  background-position: -30px 0;
+	}
+	.dojoxExpandoClosed .dojoxExpandoIconRight {
+	  background-position: 0 0;
+		margin-left: 4px;
+	}
+	.dojoxExpandoIconBottom {
+	  background-position: -15px 0;
+	}
+	.dojoxExpandoClosed .dojoxExpandoIconBottom {
+	  background-position: -45px 0;
+		margin-top:1px;
+	}
+	.dojoxExpandoIconTop {
+	  background-position: -45px 0;
+	}
+	.dojoxExpandoClosed .dojoxExpandoIconTop {
+	  background-position: -15px 0;
+	}
