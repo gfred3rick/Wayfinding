@@ -1,280 +1,347 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9" />
-        <!--The viewport meta tag is used to improve the presentation and behavior of the samples on iOS devices-->
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-        <title>DVRPC - Routes 611 & 263 Wayfinding</title>
-      
-	    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.7/js/dojo/dijit/themes/claro/claro.css">
-		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.7/js/dojo/dijit/themes/tundra/tundra.css">
-		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.7/js/esri/dijit/css/Popup.css">
-	    <link rel="stylesheet" type="text/css" href="css/button.css" />
-		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<link rel="stylesheet" type="text/css" href="css/ExpandoPane.css" />
-	
-	    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.7.2.custom.css"/>
-	
+        <meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Routes 611 & 263 Wayfinding </title>
 
-       <style>
-	   #mainWindow, #header_splitter, #leftPane_splitter {
-       background-color: #5F5A59; 
-       }
-	     
-	   #zoom{
-		position: absolute; 
-		left: 8px; 
-		top: 10px; 
-		z-Index: 1; 
-		cursor: pointer;
-		}
-		
-		.ui-dialog{
-	   position: absolute;
-	   overflow: hidden;
-	    }
-		ui-dialog-titlebar{
-		background-color:
-		}
-	  
-	   .dijitAccordionText {
-        margin-left: 4px;
-        margin-right: 4px;
-        color: #5F5A59;
-        }
-		
-		#slider {
-	    margin-left:85px;
-	    width:150px;
-	   height:8px;
-	   border:1px solid #242424;
-	   background:url(images/slider2.png)repeat-x;
-	   }
-
-        .ui-slider-horizontal .ui-state-default {
-       border:none; 
-       background: url(images/sliderball.png) no-repeat scroll 50% 50%;}
-	   
-	   #map_layers_esristreet img
-{
-filter: url(filters.svg#grayscale) !important; /* Firefox 3.5+ */
-filter: gray !important; /* IE5+ */
--webkit-filter: grayscale(1) !important; /* Webkit Nightlies &amp; Chrome Canary */
-}
-
-        </style>
-
-	  
-	    <script type="text/javascript">
-            var djConfig = {
-              parseOnLoad: true,
-              baseUrl: './',
-              modulePaths: {
-              'agsjs': 'build/agsjs'
-		//   'agsjs': 'http://gmaps-utility-gis.googlecode.com/svn/tags/agsjs/1.07/build/agsjs'
-              }
-            };
-        </script>
-      
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.7"></script>
-		<script type="text/javascript" src="src/agsjs/layers/script.js"></script>
-
-	   <script type="text/javascript">
-		function clearText(field){
-        if (field.defaultValue == field.value) field.value = '';
-        else if (field.value == '') field.value = field.defaultValue ;
-		}
-      </script>
-	  
-	  	    <script type="text/javascript">
-		     dojo.require("dijit.dijit");  
-			 dojo.require("dijit.layout.BorderContainer");
-			 dojo.require("dijit.TitlePane");
-			 dojo.require("dijit.layout.ContentPane");
-			 dojo.require("dijit.layout.TabContainer");
-             dojo.require("dijit.form.Button");
-       	     dojo.require("dijit.form.Textarea"); 
-			 dojo.require("esri.map");
-	         dojo.require("esri.dijit.Popup");   
-		     dojo.require("esri.dijit.BasemapGallery");
-             dojo.require("esri.arcgis.utils");
-			 dojo.require("agsjs.layers.GoogleMapsLayer");
-			 dojo.require("esri.tasks.locator");   
-     
-        </script>
-		
+        <!-- Core CSS -->
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="css/typeahead.js-bootstrap.css" rel="stylesheet" type="text/css"> <!--https://github.com/jharding/typeahead.js-bootstrap.css-->
+        <link rel="stylesheet" type="text/css" href="css/styleNew.css">
+        <!--[if lte IE 8]>
+            <link href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" rel="stylesheet" type="text/css">
+            <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
+        <![endif]-->
     </head>
-	
-    <body class="tundra" >
-	
-    <div id="mainWindow" dojotype="dijit.layout.BorderContainer" data-dojo-props="design:'headline'" design="headline" gutters="true" style="width:100%; height:100%;">
- <!-- Start Header -->    
-	  <div id="header" class="shadow" dojotype="dijit.layout.ContentPane" region="top">
-     	
-	  <div id="dvrpclogo" > <a href="http://www.dvrpc.org" target="_blank"> <img class="logo" src="images/dvrpc_logoGrey.png"/></a> </div> 
-	  <div id="divider" > <img src="images/divider.png"/> </div>  
-	  <div id="banner" ><img src="images/signs/611_crp.png"/></div>
-	  <div id="banner_text" >Wayfinding</div>
-	 
-	 <span ><a href="javascript:openTab(0);void(0);" class="large button darkblue" >about</a></span> 
-     <span ><a href="javascript:openTab2(0);void(0);" class="large button darkblue" >how to use</a></span>
-    
-	  <div id="buttons">
-	  <img src="images/search.png" alt="" title="Search" style="width:20px; height:20px;cursor: pointer;margin:2px 0px 2px 0px;" onclick="locate()" />
-	  </div>
-	  <div id="locater">  
-	   <input type="text" id="address" size="28" title="Address, ZIP code or city" onFocus="clearText(this)" onBlur="clearText(this)" value="Address, ZIP code or city" />
-	  </div>
- 
-      </div>
-<!--  End header -->
-<!--  Start Legend -->
-   
-	 <div id="leftPane" class="roundedCorners" dojoType="dijit.layout.ContentPane" splitter="false" title="Show/Hide Legend" maxWidth="275" style="width:285px" region="left">
-	
-	     <div id="h3">  Zoom to...</div>
-		  <select id="typeFilter">
-		  <option value="" selected="selected">Select District/Attractor</option>
-		  <option value="-8366051.82489,4880562.88111">Downtown Glenside</option>
-		  <option value="-8363126.22846000000,4876419.87472000000">Elkins Park (East and West consolidated)</option>
-	      <option value="-8362963.73093000000,4879832.17286000000">Jenkintown</option>
-	      <option value="-8363049.28343000000,4885090.55016000000">Roslyn Valley</option>
-	      <option value="-8365331.56953000000,4881352.01239000000">Keswick Village</option>
-	      <option value="-8362520.46539000000,4882607.99769000000">Abington</option>
-		  <option value="-8361988.86430000000,4886491.47799000000">Willow Grove</option>
-		  <option value="-8360778.98846000000,4891735.17581000000">Downtown Hatboro</option>
-	      <option value="-8365222.13610000000,4878159.33314000000">Curtis Arboretum</option>
-	      <option value="-8361987.38000000000,4879380.02664000000">Abington Art Center</option>
-		  <option value="-8361303.80095000000,4882921.62813000000">Penn State University - Abington Campus</option>
-		  <option value="-8363766.10279000000,4889410.69696000000" >Willow Grove Industrial Park</option>
-		  </select>	  	    
 
-		<br><br>
-        <div id="h3">Signs and Inventory</div>   
-		   <form action="#" method="post" id="myform">
-            <fieldset>
-	   	    <input type='checkbox' class='' checked='checked' id='checkallpa' name='checkallpa' /> Select/Clear All<br />
-			<hr> 
-		    <input type='checkbox' class='dyn_item'  id='4' /><img src="images/legend/existing.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Existing Signs</span><br>
-			<input type='checkbox' class='dyn_item' checked='checked' id='1' /><img src="images/legend/dx.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">DX Signs: Directional to Signing District</span><a class="openinfoDX" ><U>  View Sample</U> </a><br>
-            <input type='checkbox' class='dyn_item' checked='checked' id='2' /><img src="images/legend/i2.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">I-2 Signs: Municipal Boundary Welcome Signs</span><a class="openinfoI2" ><U>  View Sample</U> </a><br>
-			<input type='checkbox' class='dyn_item' checked='checked' id='0' /><img src="images/legend/d1.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px" class="openinfoD1"/><span style="" >D1-Series Signs: Community Wayfinding Guide Signs</span> <a class="openinfoD1" ><U>  View Sample</U> </a><br> 
-            <input type='checkbox' class='dyn_item' checked='checked' id='3' /><img src="images/legend/ix.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">IX Signs: Business District Welcome Signs</span><a class="openinfoIX" ><U>  View Sample</U> </a><br>
-	  </fieldset>
-			</form>
-			
- <div id="h3">Base Map Layers</div>   	
-		<form action="#" method="post" id="myform">
-            <fieldset>
+    <body>
+        
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <span>
+                    <a href="http://www.dvrpc.org" target="_new"> <img class="pull-left" style="margin:10px 0px 0px 15px; height:40px;" src="images/dvrpc_logo.png" /></a>
+                    <img class="pull-left" src="images/signs/611banner.png" style="margin: 10px 0px 0px 20px; width:90x; height:50px;" />
+                </span>
+            </div><!-- /.navbar-header -->
 
-	   	    <input type='checkbox' class='' checked='checked' id='checkallbase' name='checkallbase' /> Select/Clear All<br />
-			<hr> 
-		   <input type='checkbox' class='list_item'  checked='checked' id='5' /><img src="images/legend/att.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Attractions</span><br>
-	    <input type='checkbox' class='list_item'  checked='checked' id='6' onchange="toggleLayers();"/><img src="images/legend/comdist.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Community Business Districts </span><br>
-		    <input type='checkbox' class='list_item'  checked='checked' id='7' onchange="toggleLayers();"/><img src="images/legend/mcd.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Municipal Boundaries</span><br>
-			<input type='checkbox' class='list_item'  checked='checked' id='8' onchange="toggleLayers();"/><img src="images/legend/shed.png" style="width:25px;height:20px;vertical-align:middle;margin-right:4px"/><span style="">Shed</span><br>
-		  </fieldset>
-			</form>	  
- <div id="sliderbox">
-	 <img src="images/opacity.png" style="position:relative;top:15px;left:15px"/>
-      <div id="slider"></div>
-	  </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#aboutModal').modal('show'); return false" style="background-color: rgb(255,0,0);"><i class="glyphicon glyphicon-info-sign" style="color: white"></i>&nbsp; &nbsp;About </a>
+                    </li>
 
- 	</div>
-		
-<!--  End Legend -->
+                    <li>
+                        <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#howTo').modal('show'); return false" style="background-color: rgb(255,0,0);"><i class="glyphicon glyphicon-question-sign" style="color: white"></i>&nbsp; &nbsp;How To </a>
+                    </li>
+                </ul>
+            </div><!--/.navbar-collapse collapse -->
+        </div><!--navbar navbar-inverse navbar-fixed-top -->
 
-<!--  Start Map -->	
-        <div id="map" class="roundedCorners" dojotype="dijit.layout.ContentPane" region="center">
-		 <img id="zoom" src="images/zoom_button_dvrpcBndy.png"  onclick="zoomRegion()" title="zoom to region" style="" /> 	
-
-		
-	           <!--  Start BasemapGallery -->
-		        <div style="position:absolute; right:20px; top:10px; z-Index:1;">
-                    <div dojoType="dijit.TitlePane" title="Switch Basemap" closable="false" open="false">
-                        <div dojoType="dijit.layout.ContentPane" style="width:380px; height:280px; overflow:auto;">
-                            <div id="basemapGallery">
-                            </div>
+        <div class="row" id="container">
+            <div class="col-sm-4 col-md-3 col-lg-3" id="sidebar" style="padding: 10px; overflow: auto;">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span class="small text-muted" style="color:white"><strong>Zoom To...</strong></span>
+                    </div>
+                    <div class="panel-heading">
+                        <span class="small text-muted" style="color:white"><strong>Signs & Inventory</strong></span>
+                    </div>
+                    <div id="overlay-layers" class="panel-collapse collapse in">
+                        <div class="panel-body" style="padding: 0px 15px;">
+                            
+                        </div><!--/.panel-body -->
+                    </div><!--#overlay-layers-->
+                </div><!--/.panel panel-primary -->
+            </div><!--#sidebar -->
+            <div class="col-sm-8 col-md-9 col-lg-9" id="map">
+                <div id='title'></div>  
+                <div id="loading" style="display: block;">
+                    <div class="loading-indicator">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-info" style="width: 100%"></div>
                         </div>
                     </div>
                 </div>
-			<!--    End BasemapGalley -->		
-        </div>
-<!--  End Map -->		
-		
-    </div>
-	
-	   <!-- Dialog -->
-    <div id="dialog" title="Routes 611 & 263 Wayfinding">
-    <div id="tabs">
-      <ul>
-          <li><a href="#tabs-1">Disclaimer</a></li>
-		  <li><a href="#tabs-2">Contact Info</a></li>
-      </ul>
-	  
-      <div id="tabs-1">
-	  <p>
-	   This web page is a public resource of general information. The Delaware Valley Regional Commission (DVRPC) makes 
-	   no warranty, representation, or guarantee as to the content, sequence, accuracy, timeliness or completeness 
-	   of any of the spatial data or database information provided herein. The DVRPC, state, local and other agencies 
-	   shall assume no liability for errors, omissions, or inaccuracies in the information provided regardless of how 
-	   caused; or any decision made or action taken or not taken by any person relying on any information or data 
-	   furnished within.
-        </p>
-      </div> 
-  
-	<div id="tabs-2">
-	  <p>
-	    David Anderson <br/>
-	    Manager <br/>
-	    Office of Transportation and Corridor Studies<br/>
-		Phone: 215-238-2825  <br/>
-	    <a href="mailto:danderson@dvrpc.org">danderson@dvrpc.org </a> 
-	  </p>
-	 
-      </div>
+            </div><!-- #map -->
+        </div><!--container -->
 
-    </div>
-</div>	
-	
-  <!-- End Dialog -->
-  
-	 <!-- Start Dialog2 -->
-    <div id="dialog2" title="how to use">
-	   <h4>Map Navigation:</h4>
-		
-		<p>Click-and-drag on the map to pan, or use your mouse wheel to zoom in/out.  You may also use the slider bar and arrow controls to zoom in/out of the map.
- 		Double-clicking on an area will also zoom in. If you hold down the <B>Shift Key </B>and drag a <Font color="red">box </Font>on the map, it will zoom to the area drawn.<br><br> 
-		
-		Use the menu on the left to turn on/off selected layers. You can turn all of the layers on/off quickly by clicking on Select/Clear All.<br><br>
-		Use the opacity slider bar to decrease/increase the transparency level of the base map layers.<br><br>
-		Click the <b>zoom to region</b> button <img src="images/zoom_button_dvrpcBndy.png" title="zoom to region" style="" /> to zoom to the initial map extent. 
-	    </p>
-	</div>	
-	  <!-- End Dialog2 -->
-	  
+        <div class="modal fade" id="aboutModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Routes 611 & 263 Wayfinding</h4>
+                    </div><!-- /.modal-header -->
+                    <div class="modal-body">
+                        <ul id="aboutTabs" class="nav nav-tabs">
+                            <li class="active"><a href="#disclaimer" data-toggle="tab"><i class="icon-exclamation-sign"></i>&nbsp;Disclaimer</a></li>
+                            <li><a href="#contact" data-toggle="tab"><i class="icon-envelope"></i>&nbsp;Contact Info</a></li>
+                        </ul>
+                        <div id="aboutTabsContent" class="tab-content" style="padding-top: 10px;">
+                            
+                            <div class="tab-pane fade active in" id="disclaimer">
+                                <p>This web page is a public resource of general information. The Delaware Valley Regional Commission (DVRPC) makes no warranty, representation, or guarantee as to the content, sequence, accuracy, timeliness or completeness of any of the spatial data or database information provided herein. The DVRPC, state, local and other agencies shall assume no liability for errors, omissions, or inaccuracies in the information provided regardless of how caused; or any decision made or action taken or not taken by any person relying on any information or data furnished within.</p>
+                            </div>
 
-	<div id="infoDX" title="DX Signs: Directional to Signing District">
-	<img src="images/signs/dXsign.png" style="vertical-align:middle;margin-right:4px"/>
-	</div>	
-	
-	  <div id="infoI2" title="I-2 Signs: Municipal Boundary Welcome Signs">
-	<img src="images/signs/I2sign.png" style="vertical-align:middle;margin-right:4px"/>
-	</div>	
-	
-	<div id="infoD1" title="D1-Series Signs: Community Wayfinding Guide Signs">
-	<img src="images/signs/d1sign.png" style="vertical-align:middle;margin-right:4px"/>
-	</div>	
-	
-	<div id="infoIX" title="IX Signs: Business District Welcome Signs">
-	<img src="images/signs/Ixsign.png" style="vertical-align:middle;margin-right:4px"/>
-	</div>	
+                            <div class="tab-pane fade" id="contact">
+                                <p>
+                                <strong>David Anderson</strong>
+                                <br>
+                                Manager
+                                <br>
+                                Office of Transportation and Corridor Studies
+                                <br>
+                                Phone: 215-238-2825
+                                <br>
+                                <a class="email" href="mailto:danderson@dvrpc.org">danderson@dvrpc.org</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-body -->
+                </div><!--/.modal-content -->
+            </div><!--/.modal-dialog -->
+        </div><!--#aboutModal -->
+
+        <div class="modal fade" id="howTo">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">How To Use</h4>
+                    </div><!-- /.modal-header -->
+                    <div class="modal-body">
+                        <p><strong>Map Navigation:</strong>
+                        <br>
+                        <br>
+                        Click-and-drag on the map to pan, or use your mouse wheel to zoom in/out. You may also use the slider bar and arrow controls to zoom in/out of the map. Double-clicking on an area will also zoom in. If you hold down the <strong>Shift Key</strong> and drag a <span style="color: red;">box</span> on the map, it will zoom to the area drawn.
+                        <br>
+                        </p>
+                        <p>Use the menu on the left to turn on/off selected layers. You can turn all of the layers on/off quickly by clicking on Select/Clear All.</p>
+                        <p>Use the opacity slider bar to decrease/increase the transparency level of the base map layers.</p>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!--/.modal-dialog -->
+        </div><!--#howTo -->
+        
+
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script> 
+        <script src="js/arcgislink.js"></script>
+        
+        <script>
+
+        $(document).ready(function(){
+            $('#howTo').modal();
+        });
+
+        var map;
+        var url ='http://arcgis.dvrpc.org/arcgis/rest/services/AppData/Wayfinding/MapServer';
+        var CUSTOM_BASEMAP = {
+            name: 'Custom Map',
+            alt: 'Custom Basemap'
+        }
+
+        function init() {
+
+            var $style = [
+              {
+                "featureType": "landscape",
+                "elementType": "geometry.fill",
+                "stylers": [
+                  { "color": "#9A9A9A" }
+                ]
+              },{
+                "featureType": "poi",
+                "stylers": [
+                  { "color": "#808080" }
+                ]
+              },{
+                "featureType": "road.arterial",
+                "elementType": "geometry",
+                "stylers": [
+                  { "color": "#404040" },
+                  { "weight": 0.3 },
+                  { "lightness": 11 }
+                ]
+              },{
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [
+                  { "visibility": "simplified" },
+                  { "weight": 0.8 },
+                  { "lightness": -11 },
+                  { "color": "#778ea7" }
+                ]
+              },{
+                "featureType": "road.highway",
+                "elementType": "geometry",
+                "stylers": [
+                  { "weight": 1 },
+                  { "color": "#3d3d3d" }
+                ]
+              },{
+                "featureType": "administrative.neighborhood",
+                "stylers": [
+                  { "visibility": "off" }
+                ]
+              },{
+                "featureType": "road",
+                "elementType": "labels",
+                "stylers": [
+                  { "invert_lightness": true },
+                  { "visibility": "off" }
+                ]
+              },{
+                "featureType": "road.local",
+                "elementType": "labels.text",
+                "stylers": [
+                  { "visibility": "on" },
+                  { "color": "#252525" },
+                  { "weight": 0.5 }
+                ]
+              },{
+                "featureType": "road.highway",
+                "elementType": "labels",
+                "stylers": [
+                  { "visibility": "on" },
+                  { "invert_lightness": true }
+                ]
+              }
+            ];
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: {
+                    lat: 40.1328145,
+                    lng: -75.1098939
+                },
+                maxZoom: 17,
+                minZoom: 12,
+                mapTypeId: 'Custom Basemap',
+                mapTypeControlOptions: {
+                    mapTypeIds: ['Custom Basemap', google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.ROADMAP],
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                },
+                streetViewControl: true
+            });
+
+            map.mapTypes.set('Custom Basemap', new google.maps.StyledMapType($style, CUSTOM_BASEMAP));
+
+            existing = new google.maps.Data();
+            existing.loadGeoJson('data/existing.js');
+            existing.setMap(map);
+            existing.setStyle(function(feature){
+                return {
+                    clickable: true,
+                    visible: true,
+                    icon: 'images/existing.png'
+                }
+            });
+
+            dx = new google.maps.Data();
+            dx.loadGeoJson('data/dx.js');
+            dx.setMap(map);
+            dx.setStyle(function(feature){
+                return {
+                    clickable: true,
+                    visible: true,
+                    icon: 'images/no1.png'
+                }
+            });
+
+            d1 = new google.maps.Data();
+            d1.loadGeoJson('data/d1.js');
+            d1.setMap(map);
+            d1.setStyle(function(feature){
+                return {
+                    clickable: true,
+                    visible: true,
+                    icon: 'images/no2.png'
+                }
+            });
+
+            ix = new google.maps.Data();
+            ix.loadGeoJson('data/ix.js');
+            ix.setMap(map);
+            ix.setStyle(function(feature){
+                return {
+                    clickable: true,
+                    visible: true,
+                    icon: 'images/no3.png'
+                }
+            });
+
+            i2 = new google.maps.Data();
+            i2.loadGeoJson('data/i2.js');
+            i2.setMap(map);
+            i2.setStyle(function(feature){
+                return {
+                    clickable: true,
+                    visible: true,
+                    icon: 'images/no4.png'
+                }
+            });
 
 
-	
-</body>
+            // attractions = new google.maps.Data();
+            // attractions.loadGeoJson('data/attractions.js');
+            // attractions.setMap(map);
+            
+
+            shed = new google.maps.Data();
+            shed.loadGeoJson('data/shed.js');
+            shed.setMap(map);
+            shed.setStyle(function(feature){
+                return {
+                    clickable: false,
+                    visible: true,
+                    fillColor: 'rgb(229,229,206)',
+                    fillOpacity: 0.5,
+                    strokeWeight: 0
+                }
+            });
+
+            muni = new google.maps.Data();
+            muni.loadGeoJson('data/muni.js');
+            muni.setMap(map);
+            muni.setStyle(function(feature){
+                return {
+                    clickable: false,
+                    visible: true,
+                    strokeColor: '#000',
+                    strokeOpacity: 1,
+                    fillOpacity: 0
+                }
+            })
+
+        
+        }
+
+        google.maps.event.addDomListener(window, 'load', init);
+
+
+
+
+
+
+        </script>
+
+
+
+
+
+
+
+    </body>
 </html>
